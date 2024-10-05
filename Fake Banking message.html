@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Bank Balance Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        img {
+            display: block;
+            margin: 0 auto 10px;
+            max-width: 50%;
+            height: auto;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.postimg.cc/d3GdnZtj/Picsart-24-09-30-19-04-52-420.png"> <!-• এখানে আপনার লোগোর পাথ দিন -->
+    <h2>Fake Bank Balance Generator</h2>
+    
+    <label for="companyName">কোম্পানি নাম</label>
+    <input type="text" id="companyName" required>
+    
+    <label for="transactionDate">তারিখ</label>
+    <input type="date" id="transactionDate" required>
+    
+    <label for="amount">টাকার পরিমাণ</label>
+    <input type="number" id="amount" required>
+    
+    <label for="transactionType">লেনদেন ধরন</label>
+    <select id="transactionType">
+        <option value="withdraw">Withdraw</option>
+        <option value="transfer">Transfer</option>
+    </select>
+    
+    <label for="accountNumber">একাউন্ট নাম্বার</label>
+    <input type="text" id="accountNumber" required>
+    
+    <label for="currentBalance">বর্তমান ব্যালেন্স</label>
+    <input type="number" id="currentBalance">
+    
+    <label for="transactionTime">সময়</label>
+    <input type="time" id="transactionTime" required>
+    
+    <button onclick="generateMessage()">Generate Message</button>
+
+    <div class="result" id="result" style="display:none;"></div>
+</div>
+
+<script>
+    function generateMessage() {
+        const companyName = document.getElementById('companyName').value;
+        const transactionDate = document.getElementById('transactionDate').value;
+        const amount = document.getElementById('amount').value;
+        const transactionType = document.getElementById('transactionType').value;
+        const accountNumber = document.getElementById('accountNumber').value;
+        const currentBalance = document.getElementById('currentBalance').value;
+        const transactionTime = document.getElementById('transactionTime').value;
+
+        const transactionTypeText = transactionType === 'withdraw' ? 'Cash withdrawn' : 'Money transferred';
+
+        const message = `
+            Dear Customer, Tk. ${amount} has been ${transactionTypeText} from A/C: ${accountNumber} on ${transactionDate} at ${transactionTime}. 
+            Current Balance: Tk. ${currentBalance}. 
+            Thanks for banking with ${companyName}.
+        `;
+
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result').innerText = message;
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>জেলার তথ্য</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(90deg, #4a90e2, #50e3c2);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            animation: zoomIn 1s ease;
+        }
+        header img {
+            max-width: 100px; /* Adjust the size of the logo */
+            margin-bottom: 10px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #357ab8;
+        }
+        .result {
+            background: #e7f3fe;
+            border-left: 6px solid #2196F3;
+            padding: 10px;
+            display: none;
+            animation: zoomIn 1s ease;
+        }
+        .result strong {
+            color: #2196F3;
+        }
+        @keyframes zoomIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="Logo"> <!-- Replace 'logo.png' with your logo image path -->
+    <h1>জেলার তথ্য প্রদর্শন</h1>
+</header>
+
+<div class="container">
+    <h2>মোবাইল নাম্বার এবং জেলা নির্বাচন করুন</h2>
+    <input type="text" id="mobileNumber" placeholder="মোবাইল নাম্বার লিখুন (যেমন: 017XXXXXXX)" maxlength="11" />
+    
+    <select id="districtSelect">
+        <option value="">একটি জেলা নির্বাচন করুন</option>
+        <option value="Dhaka">ঢাকা</option>
+        <option value="Chittagong">চট্টগ্রাম</option>
+        <option value="Khulna">খুলনা</option>
+        <option value="Rajshahi">রাজশাহী</option>
+        <option value="Barisal">বরিশাল</option>
+        <option value="Sylhet">সিলেট</option>
+        <option value="Rangpur">রংপুর</option>
+        <option value="Dinajpur">দিনাজপুর</option>
+        <option value="Nilphamari">নীলফামারী</option>
+        <option value="Lalmonirhat">লালমনিরহাট</option>
+        <option value="Kurigram">কুড়িগ্রাম</option>
+        <option value="Gaibandha">গাইবান্ধা</option>
+        <option value="Panchagarh">পঞ্চগড়</option>
+        <option value="Thakurgaon">ঠাকুরগাঁও</option>
+        <option value="Jamalpur">জামালপুর</option>
+        <option value="Sherpur">শেরপুর</option>
+        <option value="Netrokona">নেত্রকোনা</option>
+        <option value="Mymensingh">ময়মনসিংহ</option>
+        <option value="Kishoreganj">কিশোরগঞ্জ</option>
+        <option value="Brahmanbaria">ব্রাহ্মণবাড়িয়া</option>
+        <option value="Cumilla">কুমিল্লা</option>
+        <option value="Noakhali">নোয়াখালী</option>
+        <option value="Feni">ফেনী</option>
+        <option value="Chandpur">চাঁদপুর</option>
+        <option value="Lakshmipur">লক্ষ্মীপুর</option>
+        <option value="Rangamati">রাঙ্গামাটি</option>
+        <option value="Bandarban">বান্দরবান</option>
+        <option value="Khagrachari">খাগড়াছড়ি</option>
+        <option value="Sunamganj">সুনামগঞ্জ</option>
+        <option value="Habiganj">হবিগঞ্জ</option>
+        <option value="Moulvibazar">মৌলভীবাজার</option>
+        <option value="Borguna">বরগুনা</option>
+        <option value="Patuakhali">পটুয়াখালী</option>
+        <option value="Bagerhat">বাগেরহাট</option>
+        <option value="Pirojpur">পিরোজপুর</option>
+        <option value="Jhalokati">ঝালকাঠী</option>
+        <option value="Satkhira">সাতক্ষীরা</option>
+        <option value="Faridpur">ফরিদপুর</option>
+        <option value="Shariatpur">শরীয়তপুর</option>
+        <option value="Madaripur">মাদারীপুর</option>
+        <option value="Gopalganj">গোপালগঞ্জ</option>
+        <option value="Kushtia">কুষ্টিয়া</option>
+        <option value="Meherpur">মেহেরপুর</option>
+        <option value="Chuadanga">Chuadanga</option>
+        <option value="Jhenidah">ঝিনাইদহ</option>
+        <option value="Narail">নড়াইল</option>
+        <option value="Magura">মাগুরা</option>
+        <option value="Manikganj">মানিকগঞ্জ</option>
+        <option value="Tangail">টাঙ্গাইল</option>
+        <option value="Narayanganj">নারায়াণগঞ্জ</option>
+        <option value="Narsingdi">নরসিংদী</option>
+        <option value="Munshiganj">মুন্সীগঞ্জ</option>
+    </select>
+
+    <button onclick="showDetails()">তথ্য দেখান</button>
+    
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    const districtData = {
+        "Dhaka": {
+            thana: "ঢাকা সদর",
+            upazila: "ঢাকা সদর উপজেলা",
+            corporation: "ঢাকা সিটি কর্পোরেশন",
+            postalCode: "1212",
+            ipAddress: "192.168.1.1",
+            postOffice: "ঢাকা পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:23.8103,90.4125"
+        },
+        "Chittagong": {
+            thana: "চট্টগ্রাম সদর",
+            upazila: "চট্টগ্রাম সদর উপজেলা",
+            corporation: "চট্টগ্রাম সিটি কর্পোরেশন",
+            postalCode: "4000",
+            ipAddress: "192.168.1.3",
+            postOffice: "চট্টগ্রাম পোস্ট অফিস",
+            operator: "Airtel",
+            mapUrl: "geo:22.3569,91.7832"
+        },
+        "Khulna": {
+            thana: "খুলনা সদর",
+            upazila: "খুলনা সদর উপজেলা",
+            corporation: "খুলনা সিটি কর্পোরেশন",
+            postalCode: "9000",
+            ipAddress: "192.168.1.5",
+            postOffice: "খুলনা পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.8156,89.5403"
+        },
+        "Rajshahi": {
+            thana: "রাজশাহী সদর",
+            upazila: "রাজশাহী সদর উপজেলা",
+            corporation: "রাজশাহী সিটি কর্পোরেশন",
+            postalCode: "6000",
+            ipAddress: "192.168.1.6",
+            postOffice: "রাজশাহী পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:24.3733,88.6040"
+        },
+        "Barisal": {
+            thana: "বরিশাল সদর",
+            upazila: "বরিশাল সদর উপজেলা",
+            corporation: "বরিশাল সিটি কর্পোরেশন",
+            postalCode: "8200",
+            ipAddress: "192.168.1.7",
+            postOffice: "বরিশাল পোস্ট অফিস",
+            operator: "Airtel",
+            mapUrl: "geo:22.7010,90.3639"
+        },
+        "Sylhet": {
+            thana: "সিলেট সদর",
+            upazila: "সিলেট সদর উপজেলা",
+            corporation: "সিলেট সিটি কর্পোরেশন",
+            postalCode: "3100",
+            ipAddress: "192.168.1.8",
+            postOffice: "সিলেট পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:24.8940,91.8687"
+        },
+        "Rangpur": {
+            thana: "রংপুর সদর",
+            upazila: "রংপুর সদর উপজেলা",
+            corporation: "রংপুর সিটি কর্পোরেশন",
+            postalCode: "5400",
+            ipAddress: "192.168.1.10",
+            postOffice: "রংপুর পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:25.7454,89.2622"
+        },
+        "Dinajpur": {
+            thana: "দিনাজপুর সদর",
+            upazila: "দিনাজপুর সদর উপজেলা",
+            corporation: "দিনাজপুর সিটি কর্পোরেশন",
+            postalCode: "5200",
+            ipAddress: "192.168.1.11",
+            postOffice: "দিনাজপুর পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:25.6344,88.6347"
+        },
+        "Nilphamari": {
+            thana: "নীলফামারী সদর",
+            upazila: "নীলফামারী সদর উপজেলা",
+            corporation: "নীলফামারী সিটি কর্পোরেশন",
+            postalCode: "5400",
+            ipAddress: "192.168.1.50",
+            postOffice: "নীলফামারী পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:25.6016,88.5780"
+        },
+        "Lalmonirhat": {
+            thana: "লালমনিরহাট সদর",
+            upazila: "লালমনিরহাট সদর উপজেলা",
+            corporation: "লালমনিরহাট সিটি কর্পোরেশন",
+            postalCode: "5700",
+            ipAddress: "192.168.1.51",
+            postOffice: "লালমনিরহাট পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:25.9998,88.8255"
+        },
+        "Kurigram": {
+            thana: "কুড়িগ্রাম সদর",
+            upazila: "কুড়িগ্রাম সদর উপজেলা",
+            corporation: "কুড়িগ্রাম সিটি কর্পোরেশন",
+            postalCode: "5600",
+            ipAddress: "192.168.1.52",
+            postOffice: "কুড়িগ্রাম পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:25.9192,89.6289"
+        },
+        "Gaibandha": {
+            thana: "গাইবান্ধা সদর",
+            upazila: "গাইবান্ধা সদর উপজেলা",
+            corporation: "গাইবান্ধা সিটি কর্পোরেশন",
+            postalCode: "5700",
+            ipAddress: "192.168.1.53",
+            postOffice: "গাইবান্ধা পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:25.3300,89.5830"
+        },
+        "Panchagarh": {
+            thana: "পঞ্চগড় সদর",
+            upazila: "পঞ্চগড় সদর উপজেলা",
+            corporation: "পঞ্চগড় সিটি কর্পোরেশন",
+            postalCode: "5000",
+            ipAddress: "192.168.1.54",
+            postOffice: "পঞ্চগড় পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:26.0470,88.6393"
+        },
+        "Thakurgaon": {
+            thana: "ঠাকুরগাঁও সদর",
+            upazila: "ঠাকুরগাঁও সদর উপজেলা",
+            corporation: "ঠাকুরগাঁও সিটি কর্পোরেশন",
+            postalCode: "5100",
+            ipAddress: "192.168.1.55",
+            postOffice: "ঠাকুরগাঁও পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:26.0330,88.6006"
+        },
+        "Jamalpur": {
+            thana: "জামালপুর সদর",
+            upazila: "জামালপুর সদর উপজেলা",
+            corporation: "জামালপুর সিটি কর্পোরেশন",
+            postalCode: "2000",
+            ipAddress: "192.168.1.56",
+            postOffice: "জামালপুর পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:24.7413,89.9534"
+        },
+        "Sherpur": {
+            thana: "শেরপুর সদর",
+            upazila: "শেরপুর সদর উপজেলা",
+            corporation: "শেরপুর সিটি কর্পোরেশন",
+            postalCode: "2600",
+            ipAddress: "192.168.1.57",
+            postOffice: "শেরপুর পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:25.0000,90.0820"
+        },
+        "Netrokona": {
+            thana: "নেত্রকোনা সদর",
+            upazila: "নেত্রকোনা সদর উপজেলা",
+            corporation: "নেত্রকোনা সিটি কর্পোরেশন",
+            postalCode: "2400",
+            ipAddress: "192.168.1.58",
+            postOffice: "নেত্রকোনা পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:24.8718,90.7289"
+        },
+        "Mymensingh": {
+            thana: "ময়মনসিংহ সদর",
+            upazila: "ময়মনসিংহ সদর উপজেলা",
+            corporation: "ময়মনসিংহ সিটি কর্পোরেশন",
+            postalCode: "2200",
+            ipAddress: "192.168.1.12",
+            postOffice: "ময়মনসিংহ পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:24.7470,90.4182"
+        },
+        "Kishoreganj": {
+            thana: "কিশোরগঞ্জ সদর",
+            upazila: "কিশোরগঞ্জ সদর উপজেলা",
+            corporation: "কিশোরগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "2300",
+            ipAddress: "192.168.1.13",
+            postOffice: "কিশোরগঞ্জ পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:24.4429,90.7219"
+        },
+        "Brahmanbaria": {
+            thana: "ব্রাহ্মণবাড়িয়া সদর",
+            upazila: "ব্রাহ্মণবাড়িয়া সদর উপজেলা",
+            corporation: "ব্রাহ্মণবাড়িয়া সিটি কর্পোরেশন",
+            postalCode: "3400",
+            ipAddress: "192.168.1.14",
+            postOffice: "ব্রাহ্মণবাড়িয়া পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.9597,91.3054"
+        },
+        "Cumilla": {
+            thana: "কুমিল্লা সদর",
+            upazila: "কুমিল্লা সদর উপজেলা",
+            corporation: "কুমিল্লা সিটি কর্পোরেশন",
+            postalCode: "3500",
+            ipAddress: "192.168.1.15",
+            postOffice: "কুমিল্লা পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.4647,91.1787"
+        },
+        "Noakhali": {
+            thana: "নোয়াখালী সদর",
+            upazila: "নোয়াখালী সদর উপজেলা",
+            corporation: "নোয়াখালী সিটি কর্পোরেশন",
+            postalCode: "3800",
+            ipAddress: "192.168.1.16",
+            postOffice: "নোয়াখালী পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.8392,91.0660"
+        },
+        "Feni": {
+            thana: "ফেনী সদর",
+            upazila: "ফেনী সদর উপজেলা",
+            corporation: "ফেনী সিটি কর্পোরেশন",
+            postalCode: "3900",
+            ipAddress: "192.168.1.17",
+            postOffice: "ফেনী পোস্ট অফিস",
+            operator: "Airtel",
+            mapUrl: "geo:22.9520,91.3936"
+        },
+        "Chandpur": {
+            thana: "চাঁদপুর সদর",
+            upazila: "চাঁদপুর সদর উপজেলা",
+            corporation: "চাঁদপুর সিটি কর্পোরেশন",
+            postalCode: "4200",
+            ipAddress: "192.168.1.18",
+            postOffice: "চাঁদপুর পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.2330,90.5621"
+        },
+        "Lakshmipur": {
+            thana: "লক্ষ্মীপুর সদর",
+            upazila: "লক্ষ্মীপুর সদর উপজেলা",
+            corporation: "লক্ষ্মীপুর সিটি কর্পোরেশন",
+            postalCode: "4300",
+            ipAddress: "192.168.1.19",
+            postOffice: "লক্ষ্মীপুর পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.6851,90.5763"
+        },
+        "Rangamati": {
+            thana: "রাঙ্গামাটি সদর",
+            upazila: "রাঙ্গামাটি সদর উপজেলা",
+            corporation: "রাঙ্গামাটি সিটি কর্পোরেশন",
+            postalCode: "4500",
+            ipAddress: "192.168.1.20",
+            postOffice: "রাঙ্গামাটি পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:22.2402,92.1662"
+        },
+        "Bandarban": {
+            thana: "বান্দরবান সদর",
+            upazila: "বান্দরবান সদর উপজেলা",
+            corporation: "বান্দরবান সিটি কর্পোরেশন",
+            postalCode: "4600",
+            ipAddress: "192.168.1.21",
+            postOffice: "বান্দরবান পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.1987,92.1986"
+        },
+        "Khagrachari": {
+            thana: "খাগড়াছড়ি সদর",
+            upazila: "খাগড়াছড়ি সদর উপজেলা",
+            corporation: "খাগড়াছড়ি সিটি কর্পোরেশন",
+            postalCode: "4700",
+            ipAddress: "192.168.1.22",
+            postOffice: "খাগড়াছড়ি পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.0835,91.9689"
+        },
+        "Sunamganj": {
+            thana: "সুনামগঞ্জ সদর",
+            upazila: "সুনামগঞ্জ সদর উপজেলা",
+            corporation: "সুনামগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "3000",
+            ipAddress: "192.168.1.23",
+            postOffice: "সুনামগঞ্জ পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:24.8667,91.4000"
+        },
+        "Habiganj": {
+            thana: "হবিগঞ্জ সদর",
+            upazila: "হবিগঞ্জ সদর উপজেলা",
+            corporation: "হবিগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "3300",
+            ipAddress: "192.168.1.24",
+            postOffice: "হবিগঞ্জ পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:24.3672,91.4089"
+        },
+        "Moulvibazar": {
+            thana: "মৌলভীবাজার সদর",
+            upazila: "মৌলভীবাজার সদর উপজেলা",
+            corporation: "মৌলভীবাজার সিটি কর্পোরেশন",
+            postalCode: "3200",
+            ipAddress: "192.168.1.25",
+            postOffice: "মৌলভীবাজার পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:24.3150,91.7300"
+        },
+        "Borguna": {
+            thana: "বরগুনা সদর",
+            upazila: "বরগুনা সদর উপজেলা",
+            corporation: "বরগুনা সিটি কর্পোরেশন",
+            postalCode: "8700",
+            ipAddress: "192.168.1.26",
+            postOffice: "বরগুনা পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:22.0880,90.1672"
+        },
+        "Patuakhali": {
+            thana: "পটুয়াখালী সদর",
+            upazila: "পটুয়াখালী সদর উপজেলা",
+            corporation: "পটুয়াখালী সিটি কর্পোরেশন",
+            postalCode: "8600",
+            ipAddress: "192.168.1.27",
+            postOffice: "পটুয়াখালী পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.3580,90.1955"
+        },
+        "Bagerhat": {
+            thana: "বাগেরহাট সদর",
+            upazila: "বাগেরহাট সদর উপজেলা",
+            corporation: "বাগেরহাট সিটি কর্পোরেশন",
+            postalCode: "9300",
+            ipAddress: "192.168.1.28",
+            postOffice: "বাগেরহাট পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:22.7062,89.7629"
+        },
+        "Pirojpur": {
+            thana: "পিরোজপুর সদর",
+            upazila: "পিরোজপুর সদর উপজেলা",
+            corporation: "পিরোজপুর সিটি কর্পোরেশন",
+            postalCode: "8500",
+            ipAddress: "192.168.1.29",
+            postOffice: "পিরোজপুর পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:22.5930,89.9797"
+        },
+        "Jhalokati": {
+            thana: "ঝালকাঠী সদর",
+            upazila: "ঝালকাঠী সদর উপজেলা",
+            corporation: "ঝালকাঠী সিটি কর্পোরেশন",
+            postalCode: "8500",
+            ipAddress: "192.168.1.30",
+            postOffice: "ঝালকাঠী পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:22.5927,90.2037"
+        },
+        "Satkhira": {
+            thana: "সাতক্ষীরা সদর",
+            upazila: "সাতক্ষীরা সদর উপজেলা",
+            corporation: "সাতক্ষীরা সিটি কর্পোরেশন",
+            postalCode: "9400",
+            ipAddress: "192.168.1.31",
+            postOffice: "সাতক্ষীরা পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:21.4044,89.0728"
+        },
+        "Faridpur": {
+            thana: "ফরিদপুর সদর",
+            upazila: "ফরিদপুর সদর উপজেলা",
+            corporation: "ফরিদপুর সিটি কর্পোরেশন",
+            postalCode: "7800",
+            ipAddress: "192.168.1.32",
+            postOffice: "ফরিদপুর পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.6072,89.8374"
+        },
+        "Shariatpur": {
+            thana: "শরীয়তপুর সদর",
+            upazila: "শরীয়তপুর সদর উপজেলা",
+            corporation: "শরীয়তপুর সিটি কর্পোরেশন",
+            postalCode: "7900",
+            ipAddress: "192.168.1.33",
+            postOffice: "শরীয়তপুর পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.1675,90.3444"
+        },
+        "Madaripur": {
+            thana: "মাদারীপুর সদর",
+            upazila: "মাদারীপুর সদর উপজেলা",
+            corporation: "মাদারীপুর সিটি কর্পোরেশন",
+            postalCode: "1600",
+            ipAddress: "192.168.1.34",
+            postOffice: "মাদারীপুর পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.5933,90.3675"
+        },
+        "Gopalganj": {
+            thana: "গোপালগঞ্জ সদর",
+            upazila: "গোপালগঞ্জ সদর উপজেলা",
+            corporation: "গোপালগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "8100",
+            ipAddress: "192.168.1.35",
+            postOffice: "গোপালগঞ্জ পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.0025,89.9895"
+        },
+        "Kushtia": {
+            thana: "কুষ্টিয়া সদর",
+            upazila: "কুষ্টিয়া সদর উপজেলা",
+            corporation: "কুষ্টিয়া সিটি কর্পোরেশন",
+            postalCode: "7000",
+            ipAddress: "192.168.1.36",
+            postOffice: "কুষ্টিয়া পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:23.9088,89.1031"
+        },
+        "Meherpur": {
+            thana: "মেহেরপুর সদর",
+            upazila: "মেহেরপুর সদর উপজেলা",
+            corporation: "মেহেরপুর সিটি কর্পোরেশন",
+            postalCode: "7300",
+            ipAddress: "192.168.1.37",
+            postOffice: "মেহেরপুর পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.7860,88.6351"
+        },
+        "Chuadanga": {
+            thana: "Chuadanga সদর",
+            upazila: "Chuadanga সদর উপজেলা",
+            corporation: "Chuadanga সিটি কর্পোরেশন",
+            postalCode: "6400",
+            ipAddress: "192.168.1.38",
+            postOffice: "Chuadanga পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.6323,88.6061"
+        },
+        "Jhenidah": {
+            thana: "ঝিনাইদহ সদর",
+            upazila: "ঝিনাইদহ সদর উপজেলা",
+            corporation: "ঝিনাইদহ সিটি কর্পোরেশন",
+            postalCode: "7300",
+            ipAddress: "192.168.1.39",
+            postOffice: "ঝিনাইদহ পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.5530,89.1802"
+        },
+        "Narail": {
+            thana: "নড়াইল সদর",
+            upazila: "নড়াইল সদর উপজেলা",
+            corporation: "নড়াইল সিটি কর্পোরেশন",
+            postalCode: "7400",
+            ipAddress: "192.168.1.40",
+            postOffice: "নড়াইল পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:23.1863,89.5330"
+        },
+        "Magura": {
+            thana: "মাগুরা সদর",
+            upazila: "মাগুরা সদর উপজেলা",
+            corporation: "মাগুরা সিটি কর্পোরেশন",
+            postalCode: "7600",
+            ipAddress: "192.168.1.41",
+            postOffice: "মাগুরা পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.4890,89.2365"
+        },
+        "Manikganj": {
+            thana: "মানিকগঞ্জ সদর",
+            upazila: "মানিকগঞ্জ সদর উপজেলা",
+            corporation: "মানিকগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "1800",
+            ipAddress: "192.168.1.42",
+            postOffice: "মানিকগঞ্জ পোস্ট অফিস",
+            operator: "Robi",
+            mapUrl: "geo:23.9826,90.3763"
+        },
+        "Tangail": {
+            thana: "টাঙ্গাইল সদর",
+            upazila: "টাঙ্গাইল সদর উপজেলা",
+            corporation: "টাঙ্গাইল সিটি কর্পোরেশন",
+            postalCode: "1900",
+            ipAddress: "192.168.1.43",
+            postOffice: "টাঙ্গাইল পোস্ট অফিস",
+            operator: "Airtel",
+            mapUrl: "geo:24.2500,89.9192"
+        },
+        "Narayanganj": {
+            thana: "নারায়ণগঞ্জ সদর",
+            upazila: "নারায়ণগঞ্জ সদর উপজেলা",
+            corporation: "নারায়ণগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "1400",
+            ipAddress: "192.168.1.44",
+            postOffice: "নারায়ণগঞ্জ পোস্ট অফিস",
+            operator: "Grameenphone",
+            mapUrl: "geo:23.6130,90.4974"
+        },
+        "Narsingdi": {
+            thana: "নরসিংদী সদর",
+            upazila: "নরসিংদী সদর উপজেলা",
+            corporation: "নরসিংদী সিটি কর্পোরেশন",
+            postalCode: "1600",
+            ipAddress: "192.168.1.45",
+            postOffice: "নরসিংদী পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.9130,90.7160"
+        },
+        "Munshiganj": {
+            thana: "মুন্সীগঞ্জ সদর",
+            upazila: "মুন্সীগঞ্জ সদর উপজেলা",
+            corporation: "মুন্সীগঞ্জ সিটি কর্পোরেশন",
+            postalCode: "1500",
+            ipAddress: "192.168.1.46",
+            postOffice: "মুন্সীগঞ্জ পোস্ট অফিস",
+            operator: "Teletalk",
+            mapUrl: "geo:23.8722,90.5100"
+        }
+    };
+
+    function showDetails() {
+        const mobileNumber = document.getElementById('mobileNumber').value;
+        const district = document.getElementById('districtSelect').value;
+        const resultDiv = document.getElementById('result');
+        let details = '';
+
+        // Check if mobile number is valid and if a district is selected
+        if (!mobileNumber || mobileNumber.length !== 11 || !district) {
+            resultDiv.innerHTML = '<strong>দয়া করে সঠিক ১১ অঙ্কের মোবাইল নাম্বার এবং একটি জেলা নির্বাচন করুন।</strong>';
+            resultDiv.style.display = 'block';
+            return; // Exit the function if any input is missing or invalid
+        }
+
+        const operator = getOperator(mobileNumber);
+        const currentDateTime = new Date().toLocaleString();
+        const browserHistory = navigator.userAgent;
+
+        if (district in districtData) {
+            const districtInfo = districtData[district];
+
+            details = `<strong>মোবাইল নাম্বার:</strong> ${mobileNumber}<br>` +
+                      `<strong>জেলা:</strong> ${district}<br>` +
+                      `<strong>থানা:</strong> ${districtInfo.thana}<br>` +
+                      `<strong>উপজেলা:</strong> ${districtInfo.upazila}<br>` +
+                      `<strong>সিটি কর্পোরেশন:</strong> ${districtInfo.corporation}<br>` +
+                      `<strong>পোস্ট অফিসের কোড:</strong> ${districtInfo.postalCode}<br>` +
+                      `<strong>IP ঠিকানা:</strong> ${districtInfo.ipAddress}<br>` +
+                      `<strong>পোস্ট অফিসের নাম:</strong> ${districtInfo.postOffice}<br>` +
+                      `<strong>অপারেটর:</strong> ${operator}<br>` +
+                      `<strong>বর্তমান তারিখ ও সময়:</strong> ${currentDateTime}<br>` +
+                      `<strong>ব্রাউজারের ইতিহাস:</strong> ${browserHistory}<br>` +
+                      `<strong>ম্যাপ URL:</strong> <a href="${districtInfo.mapUrl}" target="_blank">এখানে ক্লিক করুন</a><br>`;
+
+            resultDiv.innerHTML = details;
+            resultDiv.style.display = 'block';
+        }
+    }
+
+    function getOperator(mobileNumber) {
+        const operatorCode = mobileNumber.substring(0, 3);
+        switch (operatorCode) {
+            case '016':
+                return 'Airtel';
+            case '018':
+                return 'Robi';
+            case '015':
+                return 'Teletalk';
+            case '019':
+                return 'Banglalink';
+            case '017':
+                return 'Grameenphone';
+            default:
+                return 'অপরিচিত অপারেটর';
+        }
+    }
+</script>
+
+</body>
+</html>

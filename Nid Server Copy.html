@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD-NID SERVER COPY</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        iframe {
+            width: 100%;
+            height: 450px;
+            margin-top: 20px;
+            border: 8px solid #ccc;
+        }
+
+        .progressbar {
+            display: none;
+            width: 100%;
+            height: 5px;
+            background: #28a745;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BD-NID SERVER COPY</h1>
+        <input type="text" id="edittext3" placeholder="Enter Nid Number" />
+        <input type="text" id="edittext4" placeholder="Enter Birth [2004-03-19]" />
+        <button id="loadButton">Submit</button>
+        <iframe id="webview1" src="" frameborder="100"></iframe>
+        <div id="progressbar" class="progressbar"></div>
+    </div>
+    <script>
+        document.getElementById('loadButton').addEventListener('click', function() {
+            const edittext3 = document.getElementById('edittext3').value;
+            const edittext4 = document.getElementById('edittext4').value;
+            const webview1 = document.getElementById('webview1');
+            const progressbar = document.getElementById('progressbar');
+
+            // Show progress bar
+            progressbar.style.display = 'block';
+
+            // Check for "http" in the concatenated string
+            const fullUrl = edittext3.concat(edittext4);
+            if (fullUrl.includes("http")) {
+                webview1.src = fullUrl;
+            } else {
+                webview1.src = "https://mohammadahad.xyz/servercopy.php?nid=" + edittext3 + "&dob=" + edittext4;
+            }
+
+            // Simulate loading time (for demo purposes)
+            setTimeout(() => {
+                progressbar.style.display = 'none';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
