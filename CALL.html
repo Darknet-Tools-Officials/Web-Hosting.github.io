@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web-Calling</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e8f5f5;
+            margin: 0;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            position: relative; /* For positioning FAB */
+        }
+        .result {
+            display: none; /* Initially hidden */
+            text-align: center;
+            margin-bottom: 20px; /* Space below result */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #d4edda; /* Light green background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease; /* Fade in animation */
+            position: relative; /* Position relative to adjust placement */
+            top: -30px; /* Move up */
+        }
+        .result h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .result h3 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .display {
+            width: 300px; /* Increased width */
+            height: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 24px;
+            padding: 0 10px;
+            overflow: hidden;
+        }
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 100px); /* Increased size */
+            gap: 15px; /* Increased gap */
+            text-align: center;
+        }
+        .key {
+            background-color: white;
+            border-radius: 50px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 24px; /* Increased font size */
+            padding: 25px 0; /* Increased padding */
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s ease;
+            animation: colorChange 4s infinite; /* Color change animation */
+        }
+        .key:active {
+            transform: scale(0.95);
+        }
+        .call-button {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .call-button button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 20px; /* Increased font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .call-button button:active {
+            background-color: #218838;
+        }
+        .cancel-button {
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+            text-align: center;
+            animation: zoom 0.5s infinite; /* Zoom animation */
+        }
+        .cancel-button button {
+            background-color: #dc3545;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+        }
+        .toast {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745; /* Green background */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s; /* Fade in and out */
+            z-index: 1000;
+        }
+        .fab {
+            position: fixed;
+            bottom: 30px; /* Distance from bottom */
+            right: 30px; /* Distance from right */
+            width: 50px; /* Set width */
+            height: 50px; /* Set height */
+            background-color: transparent; /* Transparent background */
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fabColorChange 4s infinite; /* FAB color change animation */
+        }
+        .fab img {
+            width: 30px; /* Adjust image size */
+            height: 30px; /* Adjust image size */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes colorChange {
+            0% { background-color: #e8f5f5; }
+            25% { background-color: #ffcccb; }
+            50% { background-color: #add8e6; }
+            75% { background-color: #90ee90; }
+            100% { background-color: #e8f5f5; }
+        }
+        @keyframes fabColorChange {
+            0% { background-color: #ffcccb; }
+            25% { background-color: #add8e6; }
+            50% { background-color: #90ee90; }
+            75% { background-color: #ffcccb; }
+            100% { background-color: #add8e6; }
+        }
+        @keyframes zoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="result" id="resultContainer">
+        <h2 id="callingStatus">Calling...</h2>
+        <h3 id="callingNumber"></h3>
+    </div>
+    
+    <div id="keypadContainer">
+        <div class="display" id="display">
+            <span id="numberDisplay"></span>
+            <span class="delete" onclick="deleteNumber()">×</span>
+        </div>
+        <div class="keypad">
+            <div class="key" onclick="addNumber('1')">1</div>
+            <div class="key" onclick="addNumber('2')">2</div>
+            <div class="key" onclick="addNumber('3')">3</div>
+            <div class="key" onclick="addNumber('4')">4</div>
+            <div class="key" onclick="addNumber('5')">5</div>
+            <div class="key" onclick="addNumber('6')">6</div>
+            <div class="key" onclick="addNumber('7')">7</div>
+            <div class="key" onclick="addNumber('8')">8</div>
+            <div class="key" onclick="addNumber('9')">9</div>
+            <div class="key" onclick="addNumber('*')">*</div>
+            <div class="key" onclick="addNumber('0')">0</div>
+            <div class="key" onclick="addNumber('#')">#</div>
+        </div>
+        <div class="call-button">
+            <button onclick="makeCall()">Call</button>
+        </div>
+        <div class="cancel-button" id="cancelButton">
+            <button onclick="cancelCall()">Call Cancel</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toastMessage"></div>
+
+    <!-- FAB Button -->
+    <button class="fab" onclick="window.open('https://m.me/dark.king45', '_blank')">
+        <img src="https://i.postimg.cc/gjGQRhJS/messenger.png" alt="Messenger">
+    </button>
+
+    <script>
+        let callTimeout;
+
+        function addNumber(num) {
+            const numberDisplay = document.getElementById('numberDisplay');
+            numberDisplay.textContent += num;
+        }
+
+        function deleteNumber() {
+            const numberDisplay = document.getElementById('numberDisplay');
+            numberDisplay.textContent = numberDisplay.textContent.slice(0, -1);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000); // Toast will display for 3 seconds
+        }
+
+        function makeCall() {
+            const number = document.getElementById('numberDisplay').textContent;
+            if (number.length === 10) { // Check if the number is 10 digits
+                document.getElementById('callingNumber').textContent = number;
+                document.getElementById('resultContainer').style.display = 'block'; // Show result area
+                document.getElementById('cancelButton').style.display = 'block'; // Show cancel button
+                document.getElementById('display').style.display = 'none'; // Hide input display
+
+                showToast('Calling'); // Show toast message
+
+                fetch(`https://api.task10.top/call.php?number=${number}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Simulating a call duration
+                        callTimeout = setTimeout(() => {
+                            resetCall();
+                        }, 5000); // Simulating a call for 5 seconds
+                    })
+                    .catch(error => console.log('Error making call')); // No alert
+            } else {
+                showToast('Please enter a 10-digit number'); // Show toast if number is not valid
+            }
+        }
+
+        function cancelCall() {
+            clearTimeout(callTimeout);
+            resetCall();
+            showToast('Call Cancel Successful'); // Show toast message on cancel
+        }
+
+        function resetCall() {
+            document.getElementById('numberDisplay').textContent = '';
+            document.getElementById('resultContainer').style.display = 'none'; // Hide result area
+            document.getElementById('cancelButton').style.display = 'none'; // Hide cancel button
+            document.getElementById('display').style.display = 'flex'; // Show input display
+        }
+    </script>
+</body>
+</html>
