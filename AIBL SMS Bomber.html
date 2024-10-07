@@ -257,7 +257,7 @@
         </div>
         <div class="input-container">
             <input type="number" id="amount" placeholder=" " required>
-            <label for="amount">Minuimum Limit (5)</label>
+            <label for="amount">Minuimum Limit (3)</label>
         </div>
         <button onclick="startProcess()">Submit </button>
         <div class="spinner"></div>
@@ -322,7 +322,7 @@
 
 
         const apis = [
-            { func: api_1, limit: 5, count: 0 },      ];
+            { func: api_1, limit: 3, count: 0 },      ];
 
         function canCallApis(count) {
             const totalLimit = apis.reduce((acc, api) => acc + api.limit, 0);
