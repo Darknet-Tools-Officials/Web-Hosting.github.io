@@ -6,6 +6,7 @@
     <title>Premium Code Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism.min.css">
     <style>
+        /* Existing styles */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -39,7 +40,7 @@
             transition: all 0.3s;
         }
         @keyframes red-glow {
-            0% { box-shadow: 0 0 5px 2px #ff0000; }
+            10% { box-shadow: 0 0 5px 2px #ff0000; }
             100% { box-shadow: 0 0 10px 5px #ff0000; }
         }
         @keyframes green-glow {
@@ -68,7 +69,7 @@
             overflow-wrap: break-word; /* Allow long words to break */
             white-space: pre-wrap; /* Preserve whitespace and wrap lines */
             word-break: break-word; /* Break long words */
-            font-size: 1.2em; /* Base font size */
+            font-size: 5.2em; /* Base font size */
         }
         @media (max-width: 600px) {
             pre {
@@ -83,6 +84,19 @@
             pointer-events: none; /* Prevent interaction with hint */
             transition: opacity 0.2s;
         }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -92,7 +106,7 @@
     <button onclick="handleButtonClick(this, 'openFile')">Open</button>
     <button onclick="handleButtonClick(this, 'runCode')">Run</button>
     <button onclick="handleButtonClick(this, 'toggleEdit')">Edit Code</button>
-    <button onclick="handleButtonClick(this, 'saveFile')">Save</button>
+    <button id="saveButton" onclick="saveFile()">Save</button>
 </div>
 
 <div class="editor-container">
@@ -100,10 +114,14 @@
     <div class="hint">Enter your HTML Code......</div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
 <script>
     const editor = document.getElementById('editor');
     const hint = document.querySelector('.hint');
+    const saveButton = document.getElementById('saveButton');
+    const toast = document.getElementById('toast');
 
     editor.addEventListener('input', function() {
         if (editor.textContent.trim() !== '') {
@@ -111,6 +129,20 @@
         } else {
             hint.style.opacity = '1'; // Show hint if the editor is empty
         }
+    });
+
+    saveButton.addEventListener('dblclick', function() {
+        const content = editor.innerText || editor.textContent;
+        const blob = new Blob([content], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'code.html';
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('File downloaded as code.html');
     });
 
     function handleButtonClick(button, action) {
@@ -122,6 +154,7 @@
     function newFile() {
         editor.textContent = '';
         hint.style.opacity = '1'; // Show hint when creating a new file
+        showToast('নতুন কোড ফাইল বাক্স খোলা হয়েছে');
     }
 
     function openFile() {
@@ -135,6 +168,7 @@
                 editor.textContent = event.target.result;
                 Prism.highlightElement(editor);
                 hint.style.opacity = '0'; // Hide hint when loading a file
+                showToast('মেমোরি কার্ড থেকে একটি ফাইল সিলেক্ট করা হয়েছে);
             };
             reader.readAsText(file);
         };
@@ -142,16 +176,7 @@
     }
 
     function saveFile() {
-        const content = editor.innerText || editor.textContent;
-        const blob = new Blob([content], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = url;
-        a.download = 'code.html';
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(url);
+        // This function is intentionally left blank as the save functionality is handled in the double-click event
     }
 
     function runCode() {
@@ -160,15 +185,27 @@
         newWindow.document.open();
         newWindow.document.write(code);
         newWindow.document.close();
+        showToast('Preview করে দেখা হচ্ছে');
     }
 
     function toggleEdit() {
         editor.contentEditable = editor.contentEditable === "true" ? "false" : "true";
         if (editor.contentEditable === "false") {
             Prism.highlightElement(editor);
+            showToast('কোড এডিট বন্ধ করা হয়েছে');
+        } else {
+            showToast('কোড এডিট চালু করা হয়েছে');
         }
+    }
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.opacity = '1';
+        setTimeout(() => {
+            toast.style.opacity = '0';
+        }, 3000); // Toast message will be visible for 3 seconds
     }
 </script>
 
 </body>
-</html> 
+</html>
