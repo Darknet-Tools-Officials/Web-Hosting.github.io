@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darknet Tools Officials</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+        }
+        .profile-card img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            border: 5px solid white;
+        }
+        .profile-card h2 {
+            margin: 10px 0;
+        }
+        .profile-card p {
+            color: #555;
+        }
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .profile-stats div {
+            text-align: center;
+        }
+        .profile-stats div span {
+            font-weight: bold;
+            display: block;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #2575fc;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .buttons a:hover {
+            background-color: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <img src="https://i.postimg.cc/xTkCzqfT/Picsart-24-09-30-05-53-19-441.png" alt="Profile Picture">
+        <h2>Darknet-tools-officials<h2>
+        <p>সুখের যদি অকাল মৃত্যু হয়. তবে. দুঃখের কেন দীর্ঘ বয়স🥀🖤</p>
+        <p>Comilla Chittagong, Bangladesh 🇧🇩</p>
+        <div class="profile-stats">
+            <div>
+                <span id="followers">0</span>
+                Followers
+            </div>
+            <div>
+                <span id="works">0</span>
+                Works
+            </div>
+        </div>
+        <div class="buttons">
+            <a href="https://m.me/dark.king45" target="_blank">Message</a>
+            <a href="https://www.facebook.com/dark.king45" target="_blank">Follow</a>
+        </div>
+    </div>
+
+    <script>
+        function animateValue(id, start, end, duration) {
+            let range = end - start;
+            let current = start;
+            let increment = end > start? Math.ceil(range / (duration / 50)) : Math.floor(range / (duration / 50));
+            let obj = document.getElementById(id);
+            let timer = setInterval(function() {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                obj.innerHTML = current.toLocaleString();
+            }, 50);
+        }
+
+        window.onload = function() {
+            animateValue("followers", 0, 11943658447, 5000);
+            animateValue("works", 0, 86813, 5000);
+        }
+    </script>
+
+</body>
+</html>
